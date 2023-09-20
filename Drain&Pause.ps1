@@ -31,7 +31,7 @@ try {
 
     # Pause the node and drain the roles
     Write-Log "Putting node $nodeName in pause mode..."
-    Suspend-ClusterNode -Name $nodeName -Drain | Out-Null
+    Suspend-ClusterNode -Name $nodeName -Drain -wait | Out-Null
     Write-Log "Node $nodeName is now in pause mode and roles have been drained."
 }
 catch {
