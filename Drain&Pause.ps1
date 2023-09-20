@@ -26,6 +26,9 @@ Write-Log "Cluster Name: $clusterName"
 Write-Log "Node Name: $nodeName"
 
 try {
+    # Set the error action preference to stop
+    $ErrorActionPreference = 'Stop'
+
     # Pause the node and drain the roles
     Write-Log "Putting node $nodeName in pause mode..."
     Suspend-ClusterNode -Name $nodeName -Drain | Out-Null
@@ -35,5 +38,10 @@ catch {
     Write-Log "Error occurred while putting node $nodeName in pause mode: $_"
     exit 1
 }
+finally {
+    # Reset the error action preference if needed
+    $ErrorActionPreference = 'Continue'
+}
+
 
 Write-Log "Cluster maintenance operations completed successfully for node $nodeName."
