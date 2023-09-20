@@ -26,6 +26,9 @@ Write-Log "Cluster Name: $clusterName"
 Write-Log "Node Name: $nodeName"
 
 try {
+    # Set the error action preference to stop
+    $ErrorActionPreference = 'Stop'
+
     # Resume the node and move the roles back with immediate failback
     Write-Log "Resuming node $nodeName with immediate failback..."
     Resume-ClusterNode -Name $nodeName -Failback Immediate | Out-Null
@@ -34,6 +37,10 @@ try {
 catch {
     Write-Log "Error occurred while resuming node $nodeName with immediate failback: $_"
     exit 1
+}
+finally {
+    # Reset the error action preference if needed
+    $ErrorActionPreference = 'Continue'
 }
 
 Write-Log "Cluster maintenance operations completed successfully for node $nodeName."
